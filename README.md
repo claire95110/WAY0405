@@ -16,7 +16,9 @@ git remote add origin https://github.com/<你的用户名>/<仓库名>.git
 git push -u origin main
 ```
 
-将 `<你的用户名>`、`<仓库名>` 换成你的实际信息。若使用 SSH，把 `origin` 换成 `git@github.com:用户名/仓库名.git`。
+将 `<你的用户名>`、`<仓库名>` 换成你的实际信息（须与 GitHub 上仓库名**完全一致**，例如 `WAY-` 与 `WAY` 是两个不同仓库）。若使用 SSH，把 `origin` 换成 `git@github.com:用户名/仓库名.git`。
+
+若曾把 `origin` 配错，可改正：`git remote set-url origin https://github.com/<用户名>/<正确仓库名>.git`
 
 ## 开启 GitHub Pages（手机/外网访问）
 
