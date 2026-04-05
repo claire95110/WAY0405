@@ -24,5 +24,5 @@ if errorlevel 1 (
 )
 
 echo.
-echo 完成。仓库: https://github.com/claire95110/WAY-
+echo 完成。仓库: https://github.com/claire95110/WAY_Wanganyu
 pause
