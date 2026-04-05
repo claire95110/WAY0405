@@ -27,6 +27,18 @@ git push -u origin main
 3. 推送 `main` 后，在 **Actions** 里等待 **Deploy to GitHub Pages** 跑绿。
 4. 站点地址一般为：`https://claire95110.github.io/WAY_Wanganyu/`（或 `https://<用户名>.github.io/<仓库名>/`；若仓库名为 `用户名.github.io` 则可能是根域名）。
 
+## Vercel 部署后图片不显示
+
+已核对：若打开 `https://<你的域名>/assets/1.webp` 返回 **404**，说明线上**没有部署 `assets` 目录**（页面里的 `index.html` 在，但图片未上传）。
+
+请逐项检查：
+
+1. **GitHub 网页**：仓库 **Code** 里是否能看到 **`assets/`** 文件夹及其中图片。若没有，在本机执行 `git add assets`、`git commit`、`git push`，再在 Vercel **Deployments** 里 **Redeploy**。
+2. **Vercel 项目设置**：**Settings → General → Root Directory** 须为**空**（或指向包含 `index.html` 与 `assets/` 的仓库根目录），不要指到子文件夹导致漏掉 `assets`。
+3. **不要用「只拖了单个 html」**：若用 CLI 或面板只上传了 `index.html`，必须把整个项目（含 **`assets/`**）一并部署。
+
+本地可执行 `git ls-files assets` 确认 `assets` 已被 Git 跟踪后再推送。
+
 ## 本地预览
 
 在项目目录执行 `python -m http.server 8765`，浏览器打开 `http://127.0.0.1:8765/index.html`。也可用 `serve-for-mobile.ps1` 生成局域网链接给手机访问。
