@@ -1,0 +1,21 @@
+# Editor / OS
+.cursor/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local / secrets
+.env
+.env.*
+
+# Word / Office（锁文件、临时文件、文稿勿进仓库）
+~$*
+~WRL*.tmp
+*.tmp
+*.docx
