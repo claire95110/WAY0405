@@ -15,8 +15,8 @@ from PIL import Image
 
 def main() -> None:
     root = Path(__file__).resolve().parents[1]
-    path_in = root / "照片素材" / "m7-imperfect-mystery-box-src.png"
-    path_out = root / "照片素材" / "m7-imperfect-mystery-box.png"
+    path_in = root / "assets" / "m7-imperfect-mystery-box-src.png"
+    path_out = root / "assets" / "m7-imperfect-mystery-box.png"
 
     img = Image.open(path_in).convert("RGBA")
     arr = np.asarray(img, dtype=np.float32)

@@ -19,10 +19,9 @@ param(
 
 $ErrorActionPreference = "Stop"
 $root = $PSScriptRoot
-$assetsDir = Get-ChildItem -LiteralPath $root -Directory -ErrorAction SilentlyContinue |
-  Where-Object { $_.Name -ne ".cursor" -and $_.Name -ne ".tools" -and $_.Name -ne "scripts" } |
-  Select-Object -First 1
-if (-not $assetsDir) { throw "Assets folder not found (e.g. 照片素材)." }
+$assetsPath = Join-Path $root "assets"
+if (-not (Test-Path -LiteralPath $assetsPath)) { throw "Assets folder not found: $assetsPath" }
+$assetsDir = Get-Item -LiteralPath $assetsPath
 $outFile = Join-Path $assetsDir.FullName "BV1mmXQBdEMK-24-42.mp4"
 
 function Test-Cmd($name) {
