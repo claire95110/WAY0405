@@ -18,14 +18,14 @@ git push -u origin main
 
 将 `<你的用户名>`、`<仓库名>` 换成你的实际信息（须与 GitHub 上仓库名**完全一致**）。若使用 SSH，把 `origin` 换成 `git@github.com:用户名/仓库名.git`。
 
-当前项目默认远程：`https://github.com/claire95110/WAY_Wanganyu.git`。若曾配错，可执行：`git remote set-url origin https://github.com/claire95110/WAY_Wanganyu.git`
+当前项目默认远程：`https://github.com/claire95110/WAY_test1.git`。若曾配错，可执行：`git remote set-url origin https://github.com/claire95110/WAY_test1.git`
 
 ## 开启 GitHub Pages（手机/外网访问）
 
 1. 仓库 **Settings** → **Pages**。
 2. **Build and deployment** 里 **Source** 选 **GitHub Actions**（不要选 Deploy from a branch，本仓库用工作流部署）。
 3. 推送 `main` 后，在 **Actions** 里等待 **Deploy to GitHub Pages** 跑绿。
-4. 站点地址一般为：`https://claire95110.github.io/WAY_Wanganyu/`（或 `https://<用户名>.github.io/<仓库名>/`；若仓库名为 `用户名.github.io` 则可能是根域名）。
+4. 站点地址一般为：`https://claire95110.github.io/WAY_test1/`（或 `https://<用户名>.github.io/<仓库名>/`；若仓库名为 `用户名.github.io` 则可能是根域名）。
 
 ## Vercel 部署后图片不显示
 
