@@ -33,9 +33,9 @@
       }
     }
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth;font-family:"Microsoft YaHei",sans-serif;font-size:15px;height:100%;background:var(--theme-khaki)}
+    html{scroll-behavior:smooth;font-family:"Microsoft YaHei",sans-serif;font-size:15px;height:100%;background:radial-gradient(circle at 18% 12%,color-mix(in srgb,var(--theme-cream) 96%,#fff) 0%,color-mix(in srgb,var(--theme-cream) 80%,var(--theme-khaki)) 48%,color-mix(in srgb,var(--theme-sea) 66%,var(--theme-cream)) 100%)}
     body{margin:0;padding-right:var(--nav-reserve);font-family:"Microsoft YaHei",sans-serif;color:var(--text);background:var(--theme-khaki);line-height:1.65;min-height:100%}
-    html.intro-active{background:radial-gradient(circle at 18% 12%,color-mix(in srgb,var(--theme-cream) 96%,#fff) 0%,color-mix(in srgb,var(--theme-cream) 80%,var(--theme-khaki)) 48%,color-mix(in srgb,var(--theme-sea) 66%,var(--theme-cream)) 100%)}
+    html.intro-done{background:var(--theme-khaki)}
     body.intro-active{overflow:hidden;overscroll-behavior:none;position:fixed;inset:0;width:100%;height:100%;background:radial-gradient(circle at 18% 12%,color-mix(in srgb,var(--theme-cream) 96%,#fff) 0%,color-mix(in srgb,var(--theme-cream) 80%,var(--theme-khaki)) 48%,color-mix(in srgb,var(--theme-sea) 66%,var(--theme-cream)) 100%)}
     .page-root{opacity:1}
     body.intro-active .page-root{opacity:0;pointer-events:none}
@@ -541,7 +541,7 @@
     (function(){
       const splash=document.getElementById('introSplash');
       if(!splash)return;
-      document.documentElement.classList.add('intro-active');
+      document.documentElement.classList.remove('intro-done');
       const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const holdMs=reduceMotion?260:2000;
       const fadeMs=reduceMotion?260:2000;
@@ -549,7 +549,7 @@
         splash.classList.add('is-exit');
         document.body.classList.remove('intro-active');
         document.body.classList.add('intro-done');
-        document.documentElement.classList.remove('intro-active');
+        document.documentElement.classList.add('intro-done');
       },holdMs);
       setTimeout(()=>{
         splash.remove();
