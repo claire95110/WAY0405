@@ -977,8 +977,16 @@
           clearVisualState();
           if(layer)layer.hidden=true;
         }
-        poster.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();startPlayback()});
-        video.addEventListener('play',()=>{
+        function startByGesture(e){
+          if(!e||!e.isTrusted)return;
+          e.preventDefault();
+          e.stopPropagation();
+          startPlayback();
+        }
+        poster.addEventListener('pointerdown',startByGesture,{passive:false});
+        poster.addEventListener('touchstart',startByGesture,{passive:false});
+        poster.addEventListener('click',startByGesture);
+        video.addEventListener('playing',()=>{
           poster.style.display='none';
           poster.style.visibility='hidden';
           poster.style.pointerEvents='none';
@@ -1043,8 +1051,16 @@
           showPoster();
         }
         showPoster();
-        poster.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();playFromStart()});
-        video.addEventListener('play',()=>{
+        function startByGesture(e){
+          if(!e||!e.isTrusted)return;
+          e.preventDefault();
+          e.stopPropagation();
+          playFromStart();
+        }
+        poster.addEventListener('pointerdown',startByGesture,{passive:false});
+        poster.addEventListener('touchstart',startByGesture,{passive:false});
+        poster.addEventListener('click',startByGesture);
+        video.addEventListener('playing',()=>{
           poster.style.display='none';
           poster.style.visibility='hidden';
           poster.style.pointerEvents='none';
