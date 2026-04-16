@@ -318,6 +318,8 @@
       }
       #m4 .moment .moment-player.m4-lang-mobile-unlock .play,
       #m4 .moment .moment-player.m4-dance-mobile-pierce .play{display:grid!important}
+      #m4 .moment .moment-player.mobile-local-clip .play,
+      .moment-player.mobile-local-clip .play{pointer-events:auto!important;cursor:pointer!important}
       #m4 .moment .moment-player.m4-lang-mobile-unlock,
       #m4 .moment .moment-player.m4-dance-mobile-pierce{touch-action:auto!important}
       #m4 .moment .moment-player.m4-dance-mobile-pierce.is-dance-pierce-on iframe{
@@ -995,6 +997,7 @@
         const layer=player.querySelector('.m4-dance-replay-layer');
         const btn=layer&&layer.querySelector('.m4-dance-replay-btn');
         const poster=player.querySelector('.moment-poster');
+        const playBtn=poster&&poster.querySelector('.play');
         if(!poster)return;
         let video=player.querySelector('.m4-dance-local-video');
         const mobileSrc=(player.dataset.mobileLocalSrc||'').trim();
@@ -1111,9 +1114,11 @@
           e.stopPropagation();
           startPlayback();
         }
-        poster.addEventListener('pointerdown',startByGesture,{passive:false});
-        poster.addEventListener('touchstart',startByGesture,{passive:false});
-        poster.addEventListener('click',startByGesture);
+        if(playBtn){
+          playBtn.addEventListener('pointerdown',startByGesture,{passive:false});
+          playBtn.addEventListener('touchstart',startByGesture,{passive:false});
+          playBtn.addEventListener('click',startByGesture);
+        }
         ui.addEventListener('click',e=>{
           if(e.target===ui){
             e.preventDefault();
@@ -1195,6 +1200,7 @@
       function initMobileLocalClipPlayer(player){
         const srcUrl=(player.dataset.mobileLocalSrc||'').trim();
         const poster=player.querySelector('.moment-poster');
+        const playBtn=poster&&poster.querySelector('.play');
         if(!srcUrl||!poster)return false;
         const frame=player.querySelector('iframe');
         const oldLayer=player.querySelector('.m4-dance-replay-layer,.m4-lang-replay-layer');
@@ -1314,9 +1320,11 @@
           e.stopPropagation();
           playFromStart();
         }
-        poster.addEventListener('pointerdown',startByGesture,{passive:false});
-        poster.addEventListener('touchstart',startByGesture,{passive:false});
-        poster.addEventListener('click',startByGesture);
+        if(playBtn){
+          playBtn.addEventListener('pointerdown',startByGesture,{passive:false});
+          playBtn.addEventListener('touchstart',startByGesture,{passive:false});
+          playBtn.addEventListener('click',startByGesture);
+        }
         ui.addEventListener('click',e=>{
           if(e.target===ui){
             e.preventDefault();
