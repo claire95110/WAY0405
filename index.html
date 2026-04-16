@@ -950,7 +950,7 @@
           video=document.createElement('video');
           video.className='m4-dance-local-video';
           video.preload='metadata';
-          video.controls=false;
+          video.controls=true;
           video.playsInline=true;
           video.setAttribute('playsinline','');
           video.setAttribute('webkit-playsinline','');
@@ -960,6 +960,7 @@
           video.appendChild(src);
           player.insertBefore(video,layer||null);
         }
+        video.controls=true;
         if(frame)frame.removeAttribute('src');
         player.classList.remove('is-dance-pierce-on','is-dance-ended','is-dance-playing','is-dance-cover-hidden');
         if(layer)layer.hidden=true;
@@ -1037,7 +1038,7 @@
           video=document.createElement('video');
           video.className='mobile-local-video';
           video.preload='metadata';
-          video.controls=false;
+          video.controls=true;
           video.playsInline=true;
           video.setAttribute('playsinline','');
           video.setAttribute('webkit-playsinline','');
@@ -1047,6 +1048,7 @@
           video.appendChild(source);
           player.insertBefore(video,oldLayer||null);
         }
+        video.controls=true;
         if(oldLayer)oldLayer.hidden=true;
         function showPoster(){
           player.classList.remove('is-local-playing','is-local-ended');
