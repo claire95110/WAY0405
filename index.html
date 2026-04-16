@@ -934,6 +934,7 @@
         const poster=player.querySelector('.moment-poster');
         if(!poster)return;
         let video=player.querySelector('.m4-dance-local-video');
+        const mobileSrc=(player.dataset.mobileLocalSrc||'').trim();
         if(!video){
           video=document.createElement('video');
           video.className='m4-dance-local-video';
@@ -943,7 +944,7 @@
           video.setAttribute('playsinline','');
           video.setAttribute('webkit-playsinline','');
           const src=document.createElement('source');
-          src.src='assets/BV1mmXQBdEMK-24-42.mp4?v=20260415e';
+          src.src=mobileSrc||'assets/3.mp4?v=20260415f';
           src.type='video/mp4';
           video.appendChild(src);
           player.insertBefore(video,layer||null);
@@ -977,6 +978,12 @@
           if(layer)layer.hidden=true;
         }
         poster.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();startPlayback()});
+        video.addEventListener('play',()=>{
+          poster.style.display='none';
+          poster.style.visibility='hidden';
+          poster.style.pointerEvents='none';
+          if(layer)layer.hidden=true;
+        });
         video.addEventListener('ended',()=>{
           player.classList.remove('is-dance-playing');
           player.classList.add('is-dance-ended');
@@ -1037,6 +1044,12 @@
         }
         showPoster();
         poster.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();playFromStart()});
+        video.addEventListener('play',()=>{
+          poster.style.display='none';
+          poster.style.visibility='hidden';
+          poster.style.pointerEvents='none';
+          player.classList.add('is-local-playing');
+        });
         video.addEventListener('ended',()=>{
           resetClip();
         });
