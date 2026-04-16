@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>王安宇｜个人主页</title>
+  <link rel="preload" href="assets/jet.webp" as="image" fetchpriority="high">
   <link rel="preload" href="assets/quiz-hint-bulb.png" as="image">
   <style>
     :root{
@@ -41,23 +42,22 @@
     .page-root{opacity:1}
     body.intro-active .page-root{opacity:0;pointer-events:none}
     body.intro-done .page-root{opacity:1;pointer-events:auto;transition:opacity 2s linear}
-    .intro-splash{position:fixed;inset:0;z-index:25000;display:flex;align-items:center;justify-content:center;padding:calc(clamp(18px,4vw,44px) + env(safe-area-inset-top)) calc(clamp(18px,4vw,44px) + env(safe-area-inset-right)) calc(clamp(18px,4vw,44px) + env(safe-area-inset-bottom)) calc(clamp(18px,4vw,44px) + env(safe-area-inset-left));background:transparent;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s linear,visibility 0s linear .35s}
+    .intro-splash{position:fixed;inset:0;z-index:25000;display:flex;align-items:center;justify-content:center;padding:calc(clamp(18px,4vw,44px) + env(safe-area-inset-top)) calc(clamp(18px,4vw,44px) + env(safe-area-inset-right)) calc(clamp(18px,4vw,44px) + env(safe-area-inset-bottom)) calc(clamp(18px,4vw,44px) + env(safe-area-inset-left));background:transparent;opacity:0;visibility:hidden;pointer-events:none;transition:none}
     .intro-splash::before{content:"";position:fixed;left:0;right:0;top:-120vh;bottom:-120vh;background:var(--intro-bg);z-index:-1;pointer-events:none}
-    body.intro-active .intro-splash{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .35s linear}
+    body.intro-active .intro-splash{opacity:1;visibility:visible;pointer-events:auto}
     .intro-splash.is-exit{opacity:0;visibility:hidden;transition:opacity 2s linear,visibility 0s linear 2s}
     .intro-splash__scene{position:relative;inset:0;width:100%;height:100%;display:block;overflow:hidden}
     .intro-barrage{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden}
-    .intro-float-text{position:absolute;left:var(--x);bottom:var(--y);z-index:6;white-space:nowrap;font-size:clamp(20px,2.7vw,42px);font-weight:900;line-height:1;font-family:"Microsoft YaHei",sans-serif;color:#4B90A6;opacity:.82;transform:translateY(24vh);will-change:transform,opacity;animation:introFloatUp var(--d) linear infinite;animation-delay:var(--delay);text-shadow:none;mix-blend-mode:normal;-webkit-text-stroke:.25px rgba(31,67,84,.32)}
+    .intro-float-text{position:absolute;left:var(--x);bottom:var(--y);z-index:6;white-space:nowrap;font-size:clamp(20px,2.7vw,42px);font-weight:900;line-height:1;font-family:"Microsoft YaHei",sans-serif;color:#4B90A6;opacity:calc(.74 + var(--o) * .22);transform:translateY(24vh);will-change:transform;animation:introFloatUp var(--d) linear infinite;animation-delay:calc(var(--delay) - var(--d));text-shadow:none;mix-blend-mode:normal;-webkit-text-stroke:.25px rgba(31,67,84,.32)}
     .intro-float-text.mobile-only{display:none}
     .intro-float-text.size-s{font-size:clamp(14px,1.8vw,24px)}
     .intro-float-text.size-m{font-size:clamp(19px,2.5vw,34px)}
     .intro-float-text.size-l{font-size:clamp(24px,3.1vw,44px)}
     @keyframes introFloatUp{
-      0%{transform:translateY(24vh);opacity:.05}
-      10%{opacity:calc(.78 + var(--o) * .14)}
-      100%{transform:translateY(-138vh);opacity:0}
+      0%{transform:translateY(24vh)}
+      100%{transform:translateY(-138vh)}
     }
-    .intro-center-envelope-img{position:absolute;left:50%;top:50%;z-index:4;width:min(340px,38vw);max-width:74vw;height:auto;transform:translate(-50%,-50%);filter:saturate(.9) contrast(1.02) drop-shadow(0 14px 22px rgba(45,56,56,.2));animation:none}
+    .intro-center-envelope-img{position:absolute;left:50%;top:50%;z-index:4;width:min(340px,38vw);max-width:74vw;height:auto;transform:translate(-50%,-50%);filter:none;animation:none}
     @keyframes introJetFly{
       0%{transform:translate(-50%,-50%) rotate(-10deg) scale(1);opacity:1}
       100%{transform:translate(120%,-345%) rotate(-10deg) scale(1);opacity:1}
@@ -521,7 +521,7 @@
         <span class="intro-float-text mobile-only size-s" style="--x:92%;--y:-26%;--o:.22;--d:9.7s;--delay:1.05s;">Clairebear向你投送了一波安利</span>
         <span class="intro-float-text mobile-only size-m" style="--x:110%;--y:-18%;--o:.25;--d:10.4s;--delay:1.25s;">Clairebear向你投送了一波安利</span>
       </div>
-      <img class="intro-center-envelope-img" src="assets/jet.webp" alt="" aria-hidden="true">
+      <img class="intro-center-envelope-img" src="assets/jet.webp" alt="" aria-hidden="true" fetchpriority="high" decoding="sync">
     </div>
   </div>
   <div id="pageRoot" class="page-root">
