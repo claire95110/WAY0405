@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>王安宇｜个人主页</title>
   <link rel="preload" href="assets/quiz-hint-bulb.png" as="image">
   <style>
@@ -35,11 +35,11 @@
     *{box-sizing:border-box}
     html{scroll-behavior:smooth;font-family:"Microsoft YaHei",sans-serif;font-size:15px}
     body{margin:0;padding-right:var(--nav-reserve);font-family:"Microsoft YaHei",sans-serif;color:var(--text);background:var(--theme-khaki);line-height:1.65}
-    body.intro-active{overflow:hidden}
+    body.intro-active{overflow:hidden;background:radial-gradient(circle at 18% 12%,color-mix(in srgb,var(--theme-cream) 96%,#fff) 0%,color-mix(in srgb,var(--theme-cream) 80%,var(--theme-khaki)) 48%,color-mix(in srgb,var(--theme-sea) 66%,var(--theme-cream)) 100%)}
     .page-root{opacity:1}
     body.intro-active .page-root{opacity:0;pointer-events:none}
     body.intro-done .page-root{opacity:1;pointer-events:auto;transition:opacity 2s linear}
-    .intro-splash{position:fixed;inset:0;z-index:25000;display:flex;align-items:center;justify-content:center;padding:clamp(18px,4vw,44px);background:radial-gradient(circle at 18% 12%,color-mix(in srgb,var(--theme-cream) 96%,#fff) 0%,color-mix(in srgb,var(--theme-cream) 80%,var(--theme-khaki)) 48%,color-mix(in srgb,var(--theme-sea) 66%,var(--theme-cream)) 100%);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s linear,visibility 0s linear .35s}
+    .intro-splash{position:fixed;inset:0;z-index:25000;display:flex;align-items:center;justify-content:center;padding:calc(clamp(18px,4vw,44px) + env(safe-area-inset-top)) calc(clamp(18px,4vw,44px) + env(safe-area-inset-right)) calc(clamp(18px,4vw,44px) + env(safe-area-inset-bottom)) calc(clamp(18px,4vw,44px) + env(safe-area-inset-left));background:radial-gradient(circle at 18% 12%,color-mix(in srgb,var(--theme-cream) 96%,#fff) 0%,color-mix(in srgb,var(--theme-cream) 80%,var(--theme-khaki)) 48%,color-mix(in srgb,var(--theme-sea) 66%,var(--theme-cream)) 100%);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .35s linear,visibility 0s linear .35s}
     body.intro-active .intro-splash{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .35s linear}
     .intro-splash.is-exit{opacity:0;visibility:hidden;transition:opacity 2s linear,visibility 0s linear 2s}
     .intro-splash__scene{position:relative;inset:0;width:100%;height:100%;display:block;overflow:hidden}
@@ -401,6 +401,8 @@
       }
     }
     .moment-poster{position:absolute;inset:0;border-radius:inherit;background:center/cover no-repeat;cursor:pointer}.moment-poster::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.56))}
+    .mobile-video-shade{position:fixed;inset:0;z-index:6;display:none;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.56))}
+    .mobile-video-shade.on{display:block}
     .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;width:44px;height:44px;border-radius:50%;background:var(--theme-cream);color:var(--theme-sea);display:grid;place-items:center;font-size:0;line-height:0;box-shadow:0 8px 18px rgba(0,0,0,.28);pointer-events:none}
     .play::before{content:"";position:absolute;left:50%;top:50%;width:26px;height:26px;background:currentColor;transform:translate(-50%,-50%) translateX(2px);-webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M7 5.5C5.9 4.9 4.5 5.7 4.5 7v10c0 1.3 1.4 2.1 2.5 1.5L17 13c1.2-.7 1.2-2.3 0-3L7 5.5z'/></svg>") center/contain no-repeat;mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='black' d='M7 5.5C5.9 4.9 4.5 5.7 4.5 7v10c0 1.3 1.4 2.1 2.5 1.5L17 13c1.2-.7 1.2-2.3 0-3L7 5.5z'/></svg>") center/contain no-repeat}
     .m4-dance-replay-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px}
@@ -933,6 +935,12 @@
         const btn=layer&&layer.querySelector('.m4-dance-replay-btn');
         const poster=player.querySelector('.moment-poster');
         if(!poster)return;
+        const momentEl=player.closest('.moment');
+        const momentBg=momentEl?momentEl.style.background:'';
+        const shade=document.createElement('div');
+        shade.className='mobile-video-shade';
+        shade.setAttribute('aria-hidden','true');
+        document.body.appendChild(shade);
         let video=player.querySelector('.m4-dance-local-video');
         const mobileSrc=(player.dataset.mobileLocalSrc||'').trim();
         if(!video){
@@ -965,6 +973,10 @@
           poster.style.visibility='hidden';
           poster.style.pointerEvents='none';
           if(layer)layer.hidden=true;
+          shade.classList.add('on');
+          if(momentEl){
+            momentEl.style.background='linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.56) 100%)';
+          }
           try{
             video.currentTime=0;
             const playPromise=video.play();
@@ -976,6 +988,8 @@
           try{video.currentTime=0}catch(e){}
           clearVisualState();
           if(layer)layer.hidden=true;
+          shade.classList.remove('on');
+          if(momentEl)momentEl.style.background=momentBg;
         }
         function startByGesture(e){
           if(!e||!e.isTrusted)return;
@@ -991,11 +1005,16 @@
           poster.style.visibility='hidden';
           poster.style.pointerEvents='none';
           if(layer)layer.hidden=true;
+          shade.classList.add('on');
+          if(momentEl){
+            momentEl.style.background='linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.56) 100%)';
+          }
         });
         video.addEventListener('ended',()=>{
           player.classList.remove('is-dance-playing');
           player.classList.add('is-dance-ended');
           if(layer)layer.hidden=false;
+          if(momentEl)momentEl.style.background=momentBg;
         });
         if(btn)btn.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();resetPlayback()});
         if(layer)layer.addEventListener('click',e=>{if(e.target===layer)resetPlayback()});
@@ -1004,6 +1023,12 @@
         const srcUrl=(player.dataset.mobileLocalSrc||'').trim();
         const poster=player.querySelector('.moment-poster');
         if(!srcUrl||!poster)return false;
+        const momentEl=player.closest('.moment');
+        const momentBg=momentEl?momentEl.style.background:'';
+        const shade=document.createElement('div');
+        shade.className='mobile-video-shade';
+        shade.setAttribute('aria-hidden','true');
+        document.body.appendChild(shade);
         const frame=player.querySelector('iframe');
         const oldLayer=player.querySelector('.m4-dance-replay-layer,.m4-lang-replay-layer');
         const replayLayer=player.querySelector('.mobile-local-replay-layer');
@@ -1039,6 +1064,10 @@
           poster.style.display='none';
           poster.style.visibility='hidden';
           poster.style.pointerEvents='none';
+          shade.classList.add('on');
+          if(momentEl){
+            momentEl.style.background='linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.56) 100%)';
+          }
           try{
             video.currentTime=0;
             const playPromise=video.play();
@@ -1049,6 +1078,8 @@
           video.pause();
           try{video.currentTime=0}catch(e){}
           showPoster();
+          shade.classList.remove('on');
+          if(momentEl)momentEl.style.background=momentBg;
         }
         showPoster();
         function startByGesture(e){
@@ -1065,6 +1096,10 @@
           poster.style.visibility='hidden';
           poster.style.pointerEvents='none';
           player.classList.add('is-local-playing');
+          shade.classList.add('on');
+          if(momentEl){
+            momentEl.style.background='linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.56) 100%)';
+          }
         });
         video.addEventListener('ended',()=>{
           resetClip();
