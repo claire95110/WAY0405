@@ -964,6 +964,11 @@
         if(frame)frame.removeAttribute('src');
         player.classList.remove('is-dance-pierce-on','is-dance-ended','is-dance-playing','is-dance-cover-hidden');
         if(layer)layer.hidden=true;
+        function hidePoster(){
+          poster.style.display='none';
+          poster.style.visibility='hidden';
+          poster.style.pointerEvents='none';
+        }
         function clearVisualState(){
           player.classList.remove('is-dance-ended','is-dance-playing','is-dance-cover-hidden');
           poster.style.display='';
@@ -973,9 +978,7 @@
         function startPlayback(){
           player.classList.remove('is-dance-ended');
           player.classList.add('is-dance-playing','is-dance-cover-hidden');
-          poster.style.display='none';
-          poster.style.visibility='hidden';
-          poster.style.pointerEvents='none';
+          hidePoster();
           if(layer)layer.hidden=true;
           if(momentEl){
             momentEl.style.background='linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.56) 100%)';
@@ -1002,13 +1005,20 @@
         poster.addEventListener('pointerdown',startByGesture,{passive:false});
         poster.addEventListener('touchstart',startByGesture,{passive:false});
         poster.addEventListener('click',startByGesture);
+        video.addEventListener('play',()=>{
+          hidePoster();
+          if(layer)layer.hidden=true;
+        });
         video.addEventListener('playing',()=>{
-          poster.style.display='none';
-          poster.style.visibility='hidden';
-          poster.style.pointerEvents='none';
+          hidePoster();
           if(layer)layer.hidden=true;
           if(momentEl){
             momentEl.style.background='linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.56) 100%)';
+          }
+        });
+        video.addEventListener('timeupdate',()=>{
+          if(!video.paused&&!video.ended){
+            hidePoster();
           }
         });
         video.addEventListener('ended',()=>{
@@ -1050,6 +1060,11 @@
         }
         video.controls=true;
         if(oldLayer)oldLayer.hidden=true;
+        function hidePoster(){
+          poster.style.display='none';
+          poster.style.visibility='hidden';
+          poster.style.pointerEvents='none';
+        }
         function showPoster(){
           player.classList.remove('is-local-playing','is-local-ended');
           poster.style.display='';
@@ -1059,9 +1074,7 @@
         function playFromStart(){
           player.classList.remove('is-local-ended');
           player.classList.add('is-local-playing');
-          poster.style.display='none';
-          poster.style.visibility='hidden';
-          poster.style.pointerEvents='none';
+          hidePoster();
           if(momentEl){
             momentEl.style.background='linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.56) 100%)';
           }
@@ -1087,13 +1100,21 @@
         poster.addEventListener('pointerdown',startByGesture,{passive:false});
         poster.addEventListener('touchstart',startByGesture,{passive:false});
         poster.addEventListener('click',startByGesture);
+        video.addEventListener('play',()=>{
+          hidePoster();
+          player.classList.add('is-local-playing');
+        });
         video.addEventListener('playing',()=>{
-          poster.style.display='none';
-          poster.style.visibility='hidden';
-          poster.style.pointerEvents='none';
+          hidePoster();
           player.classList.add('is-local-playing');
           if(momentEl){
             momentEl.style.background='linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.56) 100%)';
+          }
+        });
+        video.addEventListener('timeupdate',()=>{
+          if(!video.paused&&!video.ended){
+            hidePoster();
+            player.classList.add('is-local-playing');
           }
         });
         video.addEventListener('ended',()=>{
