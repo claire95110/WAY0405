@@ -14,6 +14,9 @@ venv/
 .env
 .env.*
 
+# Tools / binaries (downloaded locally)
+.tools/
+
 # Word / Office（锁文件、临时文件、文稿勿进仓库）
 ~$*
 ~WRL*.tmp
