@@ -44,7 +44,8 @@
     body.intro-done .page-root{opacity:1;pointer-events:auto;transition:opacity 2s linear}
     .intro-splash{position:fixed;inset:0;z-index:25000;display:flex;align-items:center;justify-content:center;padding:calc(clamp(18px,4vw,44px) + env(safe-area-inset-top)) calc(clamp(18px,4vw,44px) + env(safe-area-inset-right)) calc(clamp(18px,4vw,44px) + env(safe-area-inset-bottom)) calc(clamp(18px,4vw,44px) + env(safe-area-inset-left));background:transparent;opacity:0;visibility:hidden;pointer-events:none;transition:none}
     .intro-splash::before{content:"";position:fixed;left:0;right:0;top:-120vh;bottom:-120vh;background:var(--intro-bg);z-index:-1;pointer-events:none}
-    body.intro-active .intro-splash{opacity:1;visibility:visible;pointer-events:auto}
+    body.intro-active.intro-ready .intro-splash{opacity:1;visibility:visible;pointer-events:auto}
+    body.intro-active:not(.intro-ready) .intro-float-text{animation-play-state:paused}
     .intro-splash.is-exit{opacity:0;visibility:hidden;transition:opacity 2s linear,visibility 0s linear 2s}
     .intro-splash__scene{position:relative;inset:0;width:100%;height:100%;display:block;overflow:hidden}
     .intro-barrage{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden}
@@ -582,16 +583,35 @@
       const reduceMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const holdMs=reduceMotion?260:2000;
       const fadeMs=reduceMotion?260:2000;
-      setTimeout(()=>{
-        splash.classList.add('is-exit');
-        document.body.classList.remove('intro-active');
-        document.body.classList.add('intro-done');
-        document.documentElement.classList.remove('intro-active');
-        document.documentElement.classList.add('intro-done');
-      },holdMs);
-      setTimeout(()=>{
-        splash.remove();
-      },holdMs+fadeMs+40);
+      const introImg=splash.querySelector('.intro-center-envelope-img');
+      let introStarted=false;
+      function startIntro(){
+        if(introStarted)return;
+        introStarted=true;
+        document.body.classList.add('intro-ready');
+        setTimeout(()=>{
+          splash.classList.add('is-exit');
+          document.body.classList.remove('intro-ready');
+          document.body.classList.remove('intro-active');
+          document.body.classList.add('intro-done');
+          document.documentElement.classList.remove('intro-active');
+          document.documentElement.classList.add('intro-done');
+        },holdMs);
+        setTimeout(()=>{
+          splash.remove();
+        },holdMs+fadeMs+40);
+      }
+      const waitFallbackMs=reduceMotion?180:1400;
+      if(introImg&&introImg.decode){
+        introImg.decode().then(startIntro).catch(startIntro);
+        setTimeout(startIntro,waitFallbackMs);
+      }else if(introImg&&!introImg.complete){
+        introImg.addEventListener('load',startIntro,{once:true});
+        introImg.addEventListener('error',startIntro,{once:true});
+        setTimeout(startIntro,waitFallbackMs);
+      }else{
+        startIntro();
+      }
     })();
     /* 模块一为固定横幅单图展示，无需轮播脚本 */
     (function(){
